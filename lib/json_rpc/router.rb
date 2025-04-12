@@ -11,6 +11,10 @@ module JsonRpc
 			self
 		end
 
+		def fetch_handler(method)
+			@routes[method]
+		end
+
 		def has_rpc?(method)
 			@routes.key?(method)
 		end
