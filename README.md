@@ -8,7 +8,7 @@ A lightweight, transport-agnostic JSON-RPC 1.0 implementation in Ruby that provi
 
 - Simple and clean API for handling JSON-RPC requests
 - Built-in request validation
-- Customizable routing system
+- Customizable routing system with yield-based DSL
 - Error handling for common JSON-RPC scenarios
 - Transport-agnostic design (works with HTTP, WebSocket, or any other transport layer)
 - JSON-RPC 1.0 specification compliant
@@ -38,13 +38,13 @@ $ gem install json_rpc
 ```ruby
 require 'json_rpc'
 
-# Define your routes using the Router.define method
-router = JsonRpc::Router.define do
-  rpc :add do |a, b|
+# Define your routes using the yield-based router
+router = JsonRpc::Router.define do |r|
+  r.rpc :add do |a, b|
     a + b
   end
 
-  rpc :ping do
+  r.rpc :ping do
     'pong'
   end
 end

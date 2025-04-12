@@ -1,11 +1,11 @@
 module JsonRpc
   class Router
     class << self
-      def define(&block)
+      def define
         raise JsonRpc::MisconfiguredRoutesError unless block_given?
 
         router = Router.new
-        router.instance_eval(&block)
+        yield router
         router
       end
     end

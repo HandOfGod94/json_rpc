@@ -3,12 +3,12 @@ require 'json_rpc'
 describe 'Routes' do
   describe 'configuration' do
     it 'configures routes correctly' do
-      router = JsonRpc::Router.define do
-        rpc :ping do
+      router = JsonRpc::Router.define do |r|
+        r.rpc :ping do
           'pong'
         end
 
-        rpc :echo do
+        r.rpc :echo do
           'echo server'
         end
       end
@@ -24,8 +24,8 @@ describe 'Routes' do
 
   describe '.invoke' do
     it 'invokes rpc and returns json rpc response' do
-      router = JsonRpc::Router.define do
-        rpc :ping do
+      router = JsonRpc::Router.define do |r|
+        r.rpc :ping do
           'pong'
         end
       end
@@ -36,8 +36,8 @@ describe 'Routes' do
     end
 
     it 'provides a way to pass params to json rpc' do
-      router = JsonRpc::Router.define do
-        rpc :echo do |*params|
+      router = JsonRpc::Router.define do |r|
+        r.rpc :echo do |*params|
           params.inspect
         end
       end
@@ -48,8 +48,8 @@ describe 'Routes' do
     end
 
     it 'returns error when the error is raised within rpc' do
-      router = JsonRpc::Router.define do
-        rpc :errored_rpc do
+      router = JsonRpc::Router.define do |r|
+        r.rpc :errored_rpc do
           raise StandardError
         end
       end
@@ -64,8 +64,8 @@ describe 'Routes' do
     end
 
     it 'raises rpc not present error if rpc is absent' do
-      router = JsonRpc::Router.define do
-        rpc :ping do
+      router = JsonRpc::Router.define do |r|
+        r.rpc :ping do
           'pong'
         end
       end

@@ -6,10 +6,14 @@
 #
 #   require 'json_rpc'
 #
-#   # Define your RPC methods
-#   router = JsonRpc::Router.define do
-#     rpc :add do |a, b|
+#   # Define your RPC methods using the yield-based router
+#   router = JsonRpc::Router.define do |r|
+#     r.rpc :add do |a, b|
 #       a + b
+#     end
+#
+#     r.rpc :ping do
+#       'pong'
 #     end
 #   end
 #
@@ -21,9 +25,21 @@
 #
 # The module consists of several key components:
 #
-# * JsonRpc::Router - Handles method routing and invocation
+# * JsonRpc::Router - Handles method routing and invocation using a yield-based DSL
 # * JsonRpc::Request - Represents and validates incoming requests
 # * JsonRpc::Response - Formats responses according to JSON-RPC 1.0 spec
+#
+# == Router Implementation
+#
+# The Router uses a yield-based DSL for method definition, which provides a clean and explicit
+# way to define RPC methods. The router instance is yielded to the block, allowing you to
+# define methods using the #rpc method.
+#
+#   router = JsonRpc::Router.define do |r|
+#     r.rpc :echo do |message|
+#       message
+#     end
+#   end
 #
 # == Error Handling
 #
