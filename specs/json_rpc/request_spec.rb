@@ -3,11 +3,16 @@ require 'json_rpc'
 describe 'Request' do
   describe '.from_json!' do
     it 'raises InvalidRequestBodyError if the given request body is invalid' do
-      raw = <<-HEREDOC
-      {"foo": "bar"}
-      HEREDOC
+      cases = [
+        '{"foo": "bar"}',
+        '{"method": "echo", "id":1}',
+        '{"params": ["foobar"], "id":1}',
+        '{"method": "echo", "params": ["foobar"]}'
+      ]
 
-      _ { JsonRpc::Request.from_json!(raw) }.must_raise JsonRpc::InvalidRequestBodyError
+      cases.each do |c|
+        _ { JsonRpc::Request.from_json!(c) }.must_raise JsonRpc::InvalidRequestBodyError
+      end
     end
 
     it 'converts from json to request object' do
