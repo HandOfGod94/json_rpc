@@ -22,7 +22,8 @@ module JsonRpc
 
     def has_rpc?(method) = respond_to?(method)
 
-    def invoke(request)
+    def invoke(raw_request)
+      request = JsonRpc::Request.from_json!(raw_request)
       result = send(request.method, *request.params)
       JsonRpc::Response.new(id: request.id, result: result, method: request.method)
     rescue StandardError => e

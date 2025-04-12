@@ -30,7 +30,7 @@ describe 'Routes' do
         end
       end
 
-      request = JsonRpc::Request.new(:ping, [], 1)
+      request = '{"method": "ping", "params": [], "id":1}'
       result = router.invoke(request)
       _(result).must_equal(JsonRpc::Response.new(method: :ping, result: 'pong', id: 1))
     end
@@ -42,7 +42,7 @@ describe 'Routes' do
         end
       end
 
-      request = JsonRpc::Request.new(:echo, %w[hello world], 1)
+      request = '{"method": "echo", "params": ["hello", "world"], "id":1}'
       result = router.invoke(request)
       _(result).must_equal(JsonRpc::Response.new(method: :echo, result: '["hello", "world"]', id: 1))
     end
@@ -54,7 +54,7 @@ describe 'Routes' do
         end
       end
 
-      request = JsonRpc::Request.new(:errored_rpc, [], 1)
+      request = '{"method": "errored_rpc", "params": [], "id":1}'
       result = router.invoke(request)
 
       _(result).must_equal(JsonRpc::Response.new(method: :errored_rpc,
@@ -70,7 +70,7 @@ describe 'Routes' do
         end
       end
 
-      request = JsonRpc::Request.new(:fizz, [], 1)
+      request = '{"method": "fizz", "params": [], "id":1}'
       result = router.invoke(request)
       _(result.result).must_be_nil
       _(result.error).wont_be_nil
