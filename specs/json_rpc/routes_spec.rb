@@ -22,8 +22,4 @@ describe "Routes" do
 		end
 	end
 
-	describe ".call!" do
-		it "invokes rpc and returns json rpc response"
-		it "raises rpc not present error if rpc is absent"
-	end
 end
