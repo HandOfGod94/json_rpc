@@ -1,4 +1,3 @@
-require "minitest/autorun"
 require "json_rpc"
 
 describe "version" do
