@@ -14,15 +14,15 @@ describe 'Response' do
     end
   end
 
-	describe ".error?" do
-		it "returns true if error is present" do
-      response = JsonRpc::Response.new(method: :ping, result: nil, error: "foobar", id: 1)
-			_(response.error?).must_equal(true)
-		end
+  describe '.error?' do
+    it 'returns true if error is present' do
+      response = JsonRpc::Response.new(method: :ping, result: nil, error: 'foobar', id: 1)
+      _(response.error?).must_equal(true)
+    end
 
-		it "returns false if error is absent" do
+    it 'returns false if error is absent' do
       response = JsonRpc::Response.new(method: :ping, result: 'fake-result', error: nil, id: 1)
-			_(response.error?).must_equal(false)
-		end
-	end
+      _(response.error?).must_equal(false)
+    end
+  end
 end
