@@ -35,6 +35,18 @@ describe 'Routes' do
       _(result).must_equal(JsonRpc::Response.new(method: :ping, result: 'pong', id: 1))
     end
 
+    it 'provides a way to pass params to json rpc' do
+      router = JsonRpc::Router.define do
+        rpc :echo do |*params|
+          params.inspect
+        end
+      end
+
+      request = JsonRpc::Request.new(:echo, %w[hello world], 1)
+      result = router.invoke(request)
+      _(result).must_equal(JsonRpc::Response.new(method: :echo, result: '["hello", "world"]', id: 1))
+    end
+
     it 'returns error when the error is raised within rpc' do
       router = JsonRpc::Router.define do
         rpc :errored_rpc do
@@ -51,6 +63,18 @@ describe 'Routes' do
                                                  id: 1))
     end
 
-    it 'raises rpc not present error if rpc is absent'
+    it 'raises rpc not present error if rpc is absent' do
+      router = JsonRpc::Router.define do
+        rpc :ping do
+          'pong'
+        end
+      end
+
+      request = JsonRpc::Request.new(:fizz, [], 1)
+      result = router.invoke(request)
+      _(result.result).must_be_nil
+      _(result.error).wont_be_nil
+      _(result.error).must_match(/undefined method `fizz'/)
+    end
   end
 end
