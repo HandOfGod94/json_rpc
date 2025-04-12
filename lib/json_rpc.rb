@@ -13,6 +13,8 @@ module JsonRpc
   def invoke(router, request)
     result = router.fetch_handler(request.method).call
     JsonRpc::Response.new(id: request.id, result: result, method: request.method)
+	rescue StandardError => error
+		JsonRpc::Response.new(id: request.id, result: nil, error: error.message, method: request.method)
   end
 
   module_function :invoke
